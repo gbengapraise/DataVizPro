@@ -397,6 +397,10 @@ else:
                     st.error(f"Error loading sample data: {str(e)}")
     
     st.markdown("**Upload a file from the sidebar or use the sample data to get started!**")
+
+# Add Math Graph Analysis button
+if st.button("🔢 Go to Math Graph Analysis", use_container_width=True):
+    st.switch_page("pages/5_Math_Graph_Analysis.py")
     
     # Example of what the dashboard can do
     st.subheader("Example Dashboard Features")

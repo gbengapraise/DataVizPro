@@ -13,4 +13,7 @@ dependencies = [
     "streamlit-extras>=0.6.0",
     "streamlit>=1.44.1",
     "openai>=1.76.0",
+    "pytesseract>=0.3.13",
+    "sympy>=1.13.3",
+    "opencv-python-headless>=4.11.0.86",
 ]
