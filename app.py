@@ -58,36 +58,64 @@ try:
 except Exception as e:
     st.sidebar.write("📊 Data Analysis Dashboard")
 
-# Custom CSS for better font sizes and styling
+# Custom CSS for better font sizes and styling with cool colors
 st.markdown("""
 <style>
-    /* Main title font size */
+    /* Main title font size with animated gradient */
     .main-title {
         font-size: 3.2rem !important;
         font-weight: 700 !important;
-        background: linear-gradient(90deg, #4CAF50, #2196F3);
+        background: linear-gradient(90deg, #4CAF50, #2196F3, #9C27B0, #FF9800);
+        background-size: 300% 300%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         padding-bottom: 10px;
+        animation: gradient-shift 8s ease infinite;
     }
     
-    /* Section headers */
+    @keyframes gradient-shift {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+    
+    /* Section headers with cool colors */
     h2 {
         font-size: 2.2rem !important;
         font-weight: 600 !important;
         margin-top: 1.5rem !important;
+        color: #2979FF !important;
+        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
     }
     
-    /* Sub-section headers */
+    /* Sub-section headers with vibrant colors */
     h3 {
         font-size: 1.8rem !important;
         font-weight: 500 !important;
+        color: #5E35B1 !important;
+        text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
     }
     
-    /* Regular text */
+    /* Regular text with better contrast */
     p, .stMarkdown {
         font-size: 1.1rem !important;
         line-height: 1.5 !important;
+        color: #263238 !important;
+        font-weight: 500 !important;
+    }
+    
+    /* Enhance markdown list items */
+    .stMarkdown ul {
+        list-style-type: none;
+        padding-left: 1.2rem;
+    }
+    
+    .stMarkdown ul li::before {
+        content: "• ";
+        color: #4CAF50;
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-right: 0.5em;
     }
     
     /* Cards and containers styling */
@@ -107,23 +135,71 @@ st.markdown("""
         font-size: 1.2rem !important;
     }
     
-    /* Button styling */
+    /* Sidebar title with gradient */
+    .css-1avcm0n, .css-163ttbj {
+        background: linear-gradient(90deg, #4CAF50, #2196F3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    /* Button styling with gradient background */
     .stButton>button {
         font-size: 1rem !important;
         font-weight: 500 !important;
         padding: 0.5rem 1rem !important;
         border-radius: 8px !important;
         transition: all 0.3s ease !important;
+        background: linear-gradient(90deg, #2196F3, #4CAF50) !important;
+        color: white !important;
+        border: none !important;
     }
     
     .stButton>button:hover {
         transform: translateY(-2px) !important;
+        background: linear-gradient(90deg, #4CAF50, #2196F3) !important;
+        box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3) !important;
     }
     
     /* Info containers */
     .st-emotion-cache-1y4p8pa {
         padding: 1.5rem !important;
         border-radius: 10px !important;
+        border-left: 4px solid #2196F3 !important;
+    }
+    
+    /* Success message styling */
+    .stSuccess {
+        background: linear-gradient(90deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.2)) !important;
+        border-left-color: #4CAF50 !important;
+    }
+    
+    /* Error message styling */
+    .stError {
+        background: linear-gradient(90deg, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.2)) !important;
+        border-left-color: #F44336 !important;
+    }
+    
+    /* Warning message styling */
+    .stWarning {
+        background: linear-gradient(90deg, rgba(255, 152, 0, 0.1), rgba(255, 152, 0, 0.2)) !important;
+        border-left-color: #FF9800 !important;
+    }
+    
+    /* DataFrames and tables styling */
+    .stDataFrame {
+        border-radius: 10px !important;
+        overflow: hidden !important;
+    }
+    
+    .stDataFrame [data-testid="stTable"] {
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+    }
+    
+    .stDataFrame th {
+        background-color: #E3F2FD !important;
+        color: #1565C0 !important;
+        font-weight: 600 !important;
     }
 </style>
 """, unsafe_allow_html=True)
