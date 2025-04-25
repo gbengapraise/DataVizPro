@@ -5,6 +5,7 @@ import cv2
 import pytesseract
 import matplotlib.pyplot as plt
 import plotly.express as px
+import pandas as pd
 from sympy import symbols, solve, sympify
 import io
 from PIL import Image, ImageEnhance
