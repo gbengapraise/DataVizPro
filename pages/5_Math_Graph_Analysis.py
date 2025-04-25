@@ -155,31 +155,70 @@ if uploaded_file:
                 y = x  # Default linear equation
                 equation = "y = x"
             
-            # Create columns for table and graph
-            col1, col2 = st.columns(2)
+            # Create sections for table and graphs
+            st.subheader("📊 Values Table")
+            # Generate initial table with selected points
+            table_points = np.linspace(-5, 5, 11)
+            if graph_type == "Linear":
+                table_values = 2*table_points + 1
+            elif graph_type == "Quadratic":
+                table_values = table_points**2 + 2*table_points + 1
+            else:
+                table_values = table_points
             
-            with col1:
-                st.subheader("📊 Values Table")
-                # Generate table with selected points
-                table_points = np.linspace(-5, 5, 11)
-                if graph_type == "Linear":
-                    table_values = 2*table_points + 1
-                elif graph_type == "Quadratic":
-                    table_values = table_points**2 + 2*table_points + 1
-                else:
-                    table_values = table_points
-                
-                df = pd.DataFrame({
-                    'x': table_points,
-                    'y': table_values
-                })
-                st.dataframe(df)
+            # Create editable dataframe
+            df = pd.DataFrame({
+                'x': table_points,
+                'y': table_values
+            })
             
-            with col2:
-                st.subheader("📈 Graph")
-                fig = px.line(x=x, y=y, title=f"Graph of {equation}")
-                fig.update_layout(xaxis_title="x", yaxis_title="y")
-                st.plotly_chart(fig, use_container_width=True)
+            # Make the dataframe editable
+            edited_df = st.data_editor(df, num_rows="dynamic")
+            
+            # Create tabs for different graph types
+            graph_tabs = st.tabs(["Line Graph", "Plus Graph", "L Graph"])
+            
+            with graph_tabs[0]:
+                st.subheader("📈 Line Graph")
+                fig1 = px.line(edited_df, x='x', y='y', title=f"Line Graph of {equation}")
+                fig1.update_layout(xaxis_title="x", yaxis_title="y")
+                st.plotly_chart(fig1, use_container_width=True)
+            
+            with graph_tabs[1]:
+                st.subheader("➕ Plus Graph")
+                fig2 = px.scatter(edited_df, x='x', y='y', title=f"Plus Graph of {equation}")
+                fig2.update_traces(marker=dict(symbol='plus', size=15))
+                fig2.update_layout(xaxis_title="x", yaxis_title="y")
+                st.plotly_chart(fig2, use_container_width=True)
+            
+            with graph_tabs[2]:
+                st.subheader("⌊ L Graph")
+                fig3 = go.Figure()
+                # Add horizontal lines
+                for i in range(len(edited_df)):
+                    fig3.add_shape(
+                        type="line",
+                        x0=edited_df['x'].iloc[i],
+                        y0=0,
+                        x1=edited_df['x'].iloc[i],
+                        y1=edited_df['y'].iloc[i],
+                        line=dict(color="blue", width=2)
+                    )
+                    fig3.add_shape(
+                        type="line",
+                        x0=0,
+                        y0=edited_df['y'].iloc[i],
+                        x1=edited_df['x'].iloc[i],
+                        y1=edited_df['y'].iloc[i],
+                        line=dict(color="blue", width=2)
+                    )
+                fig3.update_layout(
+                    title=f"L Graph of {equation}",
+                    xaxis_title="x",
+                    yaxis_title="y",
+                    showlegend=False
+                )
+                st.plotly_chart(fig3, use_container_width=True)
             
             # Explanation section
             with st.expander("❓ Step-by-Step Explanation"):
