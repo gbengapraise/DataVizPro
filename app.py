@@ -18,37 +18,26 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Function to set animated background
-def add_bg_from_url(url):
+# Function to set white background with subtle pattern
+def add_white_background():
     st.markdown(
-        f"""
+        """
         <style>
-        .stApp {{
-            background-image: url({url});
-            background-size: cover;
-        }}
-        @keyframes gradient {{
-            0% {{background-position: 0% 50%;}}
-            50% {{background-position: 100% 50%;}}
-            100% {{background-position: 0% 50%;}}
-        }}
-        .stApp::before {{
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.85);  /* Semi-transparent white overlay */
-            z-index: -1;
-        }}
+        .stApp {
+            background-color: white;
+            background-image: 
+              radial-gradient(#f0f0f0 1px, transparent 1px),
+              radial-gradient(#f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# Add animated background
-add_bg_from_url("https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148865392.jpg?w=2000")
+# Add white background
+add_white_background()
 
 # Add logo
 try:
