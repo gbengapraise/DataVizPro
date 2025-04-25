@@ -175,50 +175,11 @@ if uploaded_file:
             # Make the dataframe editable
             edited_df = st.data_editor(df, num_rows="dynamic")
             
-            # Create tabs for different graph types
-            graph_tabs = st.tabs(["Line Graph", "Plus Graph", "L Graph"])
-            
-            with graph_tabs[0]:
-                st.subheader("📈 Line Graph")
-                fig1 = px.line(edited_df, x='x', y='y', title=f"Line Graph of {equation}")
-                fig1.update_layout(xaxis_title="x", yaxis_title="y")
-                st.plotly_chart(fig1, use_container_width=True)
-            
-            with graph_tabs[1]:
-                st.subheader("➕ Plus Graph")
-                fig2 = px.scatter(edited_df, x='x', y='y', title=f"Plus Graph of {equation}")
-                fig2.update_traces(marker=dict(symbol='plus', size=15))
-                fig2.update_layout(xaxis_title="x", yaxis_title="y")
-                st.plotly_chart(fig2, use_container_width=True)
-            
-            with graph_tabs[2]:
-                st.subheader("⌊ L Graph")
-                fig3 = go.Figure()
-                # Add horizontal lines
-                for i in range(len(edited_df)):
-                    fig3.add_shape(
-                        type="line",
-                        x0=edited_df['x'].iloc[i],
-                        y0=0,
-                        x1=edited_df['x'].iloc[i],
-                        y1=edited_df['y'].iloc[i],
-                        line=dict(color="blue", width=2)
-                    )
-                    fig3.add_shape(
-                        type="line",
-                        x0=0,
-                        y0=edited_df['y'].iloc[i],
-                        x1=edited_df['x'].iloc[i],
-                        y1=edited_df['y'].iloc[i],
-                        line=dict(color="blue", width=2)
-                    )
-                fig3.update_layout(
-                    title=f"L Graph of {equation}",
-                    xaxis_title="x",
-                    yaxis_title="y",
-                    showlegend=False
-                )
-                st.plotly_chart(fig3, use_container_width=True)
+            # Create line graph
+            st.subheader("📈 Line Graph")
+            fig = px.line(edited_df, x='x', y='y', title=f"Graph of {equation}")
+            fig.update_layout(xaxis_title="x", yaxis_title="y")
+            st.plotly_chart(fig, use_container_width=True)
             
             # Explanation section
             with st.expander("❓ Step-by-Step Explanation"):
