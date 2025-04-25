@@ -39,15 +39,32 @@ if uploaded_file:
     # Convert to numpy array for OpenCV processing
     img_array = np.array(image)
     
-    # Apply basic image enhancements
-    # Increase contrast and brightness
-    enhanced = cv2.convertScaleAbs(img_array, alpha=1.2, beta=10)
+    # Apply advanced image enhancements
+    # Convert to LAB color space for better processing
+    lab = cv2.cvtColor(img_array, cv2.COLOR_RGB2LAB)
+    l_channel, a, b = cv2.split(lab)
     
-    # Apply slight sharpening
+    # Apply CLAHE (Contrast Limited Adaptive Histogram Equalization)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    cl = clahe.apply(l_channel)
+    
+    # Merge enhanced L-channel back with A and B channels
+    limg = cv2.merge((cl,a,b))
+    
+    # Convert back to RGB color space
+    enhanced = cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+    
+    # Apply denoising
+    enhanced = cv2.fastNlMeansDenoisingColored(enhanced, None, 10, 10, 7, 21)
+    
+    # Apply sharpening
     kernel = np.array([[-1,-1,-1],
                       [-1, 9,-1],
                       [-1,-1,-1]]) / 9
     enhanced = cv2.filter2D(enhanced, -1, kernel)
+    
+    # Fine-tune contrast and brightness
+    enhanced = cv2.convertScaleAbs(enhanced, alpha=1.2, beta=10)
     
     # Convert back to PIL Image
     enhanced_image = Image.fromarray(enhanced)
