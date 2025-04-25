@@ -10,5 +10,6 @@ dependencies = [
     "plotly>=6.0.1",
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.2",
+    "streamlit-extras>=0.6.0",
     "streamlit>=1.44.1",
 ]
