@@ -27,7 +27,42 @@ uploaded_file = st.file_uploader("Upload image of math graph question", type=['p
 if uploaded_file:
     # Display uploaded image
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    
+    # Convert to RGB if needed
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+    
+    # Resize image while maintaining aspect ratio
+    max_size = (800, 800)
+    image.thumbnail(max_size, Image.Resampling.LANCZOS)
+    
+    # Convert to numpy array for OpenCV processing
+    img_array = np.array(image)
+    
+    # Apply basic image enhancements
+    # Increase contrast and brightness
+    enhanced = cv2.convertScaleAbs(img_array, alpha=1.2, beta=10)
+    
+    # Apply slight sharpening
+    kernel = np.array([[-1,-1,-1],
+                      [-1, 9,-1],
+                      [-1,-1,-1]]) / 9
+    enhanced = cv2.filter2D(enhanced, -1, kernel)
+    
+    # Convert back to PIL Image
+    enhanced_image = Image.fromarray(enhanced)
+    
+    # Display original and enhanced images side by side
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("Original Image")
+        st.image(image, use_container_width=True)
+    with col2:
+        st.write("Enhanced Image")
+        st.image(enhanced_image, use_container_width=True)
+    
+    # Use enhanced image for further processing
+    image = enhanced_image
     
     # Image enhancement options
     st.subheader("Image Enhancement")
